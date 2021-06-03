@@ -215,7 +215,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "startCall called, uuid: " + uuid + ", number: " + number + ", callerName: " + callerName);
 
         if (!isConnectionServiceAvailable() || !hasPhoneAccount() || !hasPermissions() || number == null) {
-            Log.d(TAG, "startCall ignored: " + isConnectionServiceAvailable() + ", " + hasPhoneAccount() + ", " + hasPermissions() + ", " + number);
+            Log.d(TAG, String.format("startCall ignored: ConnectionService: %b, PhoneAccount: %b, Permissions:%b",isConnectionServiceAvailable(),hasPhoneAccount(),hasPermissions()));
             return;
         }
 
@@ -670,6 +670,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
             int permissionCheck = ContextCompat.checkSelfPermission(currentActivity, permission);
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                 hasPermissions = false;
+                Log.d(TAG,"Missing permission: " + permission);
             }
         }
 
