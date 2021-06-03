@@ -47,6 +47,7 @@ import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.facebook.react.ReactApplication;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Dynamic;
 import com.facebook.react.bridge.Promise;
@@ -215,7 +216,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "startCall called, uuid: " + uuid + ", number: " + number + ", callerName: " + callerName);
 
         if (!isConnectionServiceAvailable() || !hasPhoneAccount() || !hasPermissions() || number == null) {
-            Log.d(TAG, String.format("startCall ignored: ConnectionService: %b, PhoneAccount: %b, Permissions:%b",isConnectionServiceAvailable(),hasPhoneAccount(),hasPermissions()));
+            Log.d(TAG, String.format("startCall ignored: ConnectionService: %b, PhoneAccount: %b, Permissions: %b",isConnectionServiceAvailable(),hasPhoneAccount(),hasPermissions()));
             return;
         }
 
@@ -659,15 +660,17 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     }
 
     private Boolean hasPermissions() {
+        
+        /*
         Activity currentActivity = this.getCurrentActivity();
-
         if (currentActivity == null) {
             return false;
         }
+        */
 
         boolean hasPermissions = true;
         for (String permission : permissions) {
-            int permissionCheck = ContextCompat.checkSelfPermission(currentActivity, permission);
+            int permissionCheck = ContextCompat.checkSelfPermission(this.reactContext, permission);
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                 hasPermissions = false;
                 Log.d(TAG,"Missing permission: " + permission);
